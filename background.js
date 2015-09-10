@@ -21,14 +21,23 @@ function toggleIconAndTitle() {
 function getSoundcloudTab() {
   // get list of all soundcloud tabs
   
-  chrome.tabs.query({url: 'https://soundcloud.com/*', currentWindow: true}, function(tabs) {
+  chrome.tabs.query({url: 'https://soundcloud.com/*'}, function(tabs) {
     if (tabs.length > 0) {
       console.log('Soundcloud is present.');
-      console.log("list:" , tabs);
-      return true;
+
+      // find a tab with status - 'complete'
+      // reload if status is not complete
+      // TODO: find completely loaded tab from all the tabs
+      // note: check if DOM is loaded or not
+
+      active_tabs = tabs.filter(function(tab) { return tab.status == 'complete';})
+      console.log("No. of active instances present:", active_tabs.length);
+      console.log(active_tabs);
     } else {
       console.log('No soundcloud instance found.');
-      return false;
+      chrome.tabs.create({url: 'https://soundcloud.com/'}, function(tab) {
+        console.log('Opening soundcloud.com ...');
+      });
     }
   });
 };
