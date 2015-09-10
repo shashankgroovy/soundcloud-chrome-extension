@@ -1,6 +1,7 @@
 {
   "name": "Play Pause Stop",
-  "description": "A seamless way to toggle your soundcloud music",
+  "description": "Play pause stop music on soundcloud. A seamless way to toggle
+                  your soundcloud music",
   "version": "0.1",
   "permissions": [
     "activeTab",
