@@ -5,7 +5,6 @@ var player = document.getElementById('app');
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log('accessing the content-script');
-  //if (request.msg == 'getDOM') {
-    sendResponse({msg: '#shrank'});
-  //}
+  if (request.msg == 'getDOM')
+    sendResponse({msg: '#shrank', data: player});
 });

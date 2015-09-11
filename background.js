@@ -51,7 +51,7 @@ function findPlayer(tab) {
   console.log('Searching for player...');
 
   // Initiate communication request with content script.
-  chrome.tabs.sendMessage(tab.id, {msg: tab.id}, function(response) {
+  chrome.tabs.sendMessage(tab.id, {msg: 'getDOM'}, function(response) {
     console.log('accessing tab: ', tab.id);
     console.log('found player: ', response);
   })
