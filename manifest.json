@@ -1,19 +1,24 @@
 {
   "name": "Play Pause Stop",
-  "description": "Play pause stop music on soundcloud. A seamless way to toggle
-                  your soundcloud music",
+  "description": "Play pause stop music on soundcloud. A seamless way to toggle your soundcloud music",
   "version": "0.1",
   "permissions": [
     "activeTab",
     "tabs"
   ],
+  "browser_action": {
+    "default_title": "Toggle SoundCloud music",
+    "default_icon": "icon38.png"
+  },
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
-  "browser_action": {
-    //"default_title": "Toggle SoundCloud music",
-    "default_icon": "iconplay.png"
-  },
+  "content_scripts": [
+    {
+      "matches": ["https://soundcloud.com/*"],
+      "js": ["content.js"]
+    }
+  ],
   "manifest_version": 2
 }

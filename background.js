@@ -32,15 +32,30 @@ function getSoundcloudTab() {
 
       active_tabs = tabs.filter(function(tab) { return tab.status == 'complete';})
       console.log("No. of active instances present:", active_tabs.length);
-      console.log(active_tabs);
+      active_tabs.forEach(function(item) {
+        console.log(item.id, item.status);
+      })
+
+      findPlayer(active_tabs[0]);
+
     } else {
       console.log('No soundcloud instance found.');
       chrome.tabs.create({url: 'https://soundcloud.com/'}, function(tab) {
-        console.log('Opening soundcloud.com ...');
+        console.log('Opening http://soundcloud.com');
       });
     }
   });
 };
+
+function findPlayer(tab) {
+  console.log('Searching for player...');
+
+  // Initiate communication request with content script.
+  chrome.tabs.sendMessage(tab.id, {msg: tab.id}, function(response) {
+    console.log('accessing tab: ', tab.id);
+    console.log('found player: ', response);
+  })
+}
 
 chrome.browserAction.onClicked.addListener(toggleIconAndTitle);
 toggleIconAndTitle();
