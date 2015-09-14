@@ -1,19 +1,18 @@
-var status = "pause";
-
+var status;
 function toggleIconAndTitle() {
 
   // check if soundcloud tab is found or not
   getSoundcloudTab();
 
-  if (status == 'pause') {
-    chrome.browserAction.setIcon({path:"iconplay.png"});
+  if (status == "" || status == 'Not playing') {
+    chrome.browserAction.setIcon({path:"images/iconplay.png"});
     chrome.browserAction.setTitle({title: "Play song on SoundCloud"});
-    status = 'playing'
-    console.log('Not Playing');
-  } else {
-    chrome.browserAction.setIcon({path:"iconpause.png"});
+    status = 'Playing'
+    console.log('Not playing');
+  } else if (status == 'Playing') {
+    chrome.browserAction.setIcon({path:"images/iconpause.png"});
     chrome.browserAction.setTitle({title: "Pause current song"});
-    status = 'pause';
+    status = 'Not playing';
     console.log('Playing');
   };
 };
@@ -25,18 +24,14 @@ function getSoundcloudTab() {
     if (tabs.length > 0) {
       console.log('Soundcloud is present.');
 
-      // find a tab with status - 'complete'
-      // reload if status is not complete
-      // TODO: find completely loaded tab from all the tabs
-      // note: check if DOM is loaded or not
-
-      active_tabs = tabs.filter(function(tab) { return tab.status == 'complete';})
-      console.log("No. of active instances present:", active_tabs.length);
-      active_tabs.forEach(function(item) {
+      // find activetabs
+      activeTabs = tabs.filter(function(tab) { return tab.status == 'complete';})
+      console.log("No. of active instances present:", activeTabs.length);
+      activeTabs.forEach(function(item) {
         console.log(item.id, item.status);
       })
 
-      findPlayer(active_tabs[0]);
+      findPlayer(activeTabs[0]);
 
     } else {
       console.log('No soundcloud instance found.');
@@ -51,7 +46,7 @@ function findPlayer(tab) {
   console.log('Searching for player...');
 
   // Initiate communication request with content script.
-  chrome.tabs.sendMessage(tab.id, {msg: 'getDOM'}, function(response) {
+  chrome.tabs.sendMessage(tab.id, {msg: 'click'}, function(response) {
     console.log('accessing tab: ', tab.id);
     console.log('found player: ', response);
   })
